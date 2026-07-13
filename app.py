@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import google.generativeai as genai
+import os
 
 app = Flask(__name__)
 
-genai.configure(api_key=AQ.Ab8RN6KyV74XJGn2htPP-fj1-4ta5l8jAxcRSp_lWZk7idp9tA)
+# Gemini API Key
+genai.configure(api_key=os.getenv("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
@@ -21,15 +23,23 @@ and emergency instructions.
 Always give short, accurate, and helpful responses.
 """
 
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_message = request.json["message"]
+    data = request.get_json()
 
-    response = model.generate_content(
-        SYSTEM_PROMPT + "\nUser: " + user_message
-    )
+    user_message = data.get("message", "")
 
-    return jsonify({"reply": response.text})
+    prompt = f"{SYSTEM_PROMPT}\n\nUser: {user_message}"
+
+    response = model.generate_content(prompt)
+
+    return jsonify({
+        "reply": response.text
+    })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
