@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StadiumGenie AI</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f5f5;
+            margin:0;
+        }
+
+        .container{
+            width:90%;
+            max-width:700px;
+            margin:40px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,.1);
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        #chat{
+            height:400px;
+            overflow-y:auto;
+            border:1px solid #ddd;
+            padding:10px;
+            margin-bottom:15px;
+        }
+
+        .user{
+            color:blue;
+            font-weight:bold;
+        }
+
+        .bot{
+            color:green;
+            font-weight:bold;
+        }
+
+        input{
+            width:75%;
+            padding:10px;
+        }
+
+        button{
+            padding:10px 15px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🏟️ StadiumGenie AI</h2>
+
+<div id="chat"></div>
+
+<input
+id="message"
+type="text"
+placeholder="Ask anything...">
+
+<button onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+<script>
+
+async function sendMessage(){
+
+const input=document.getElementById("message");
+
+const msg=input.value;
+
+if(msg=="") return;
+
+document.getElementById("chat").innerHTML+=
+"<p class='user'>You: "+msg+"</p>";
+
+const response=await fetch("/chat",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:msg
+})
+
+});
+
+const data=await response.json();
+
+document.getElementById("chat").innerHTML+=
+"<p class='bot'>AI: "+data.reply+"</p>";
+
+input.value="";
+
+}
+
+</script>
+
+</body>
+</html>
