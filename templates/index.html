@@ -6,53 +6,7 @@
     <title>StadiumGenie AI</title>
 
     <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#f5f5f5;
-            margin:0;
-        }
-
-        .container{
-            width:90%;
-            max-width:700px;
-            margin:40px auto;
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,.1);
-        }
-
-        h2{
-            text-align:center;
-        }
-
-        #chat{
-            height:400px;
-            overflow-y:auto;
-            border:1px solid #ddd;
-            padding:10px;
-            margin-bottom:15px;
-        }
-
-        .user{
-            color:blue;
-            font-weight:bold;
-        }
-
-        .bot{
-            color:green;
-            font-weight:bold;
-        }
-
-        input{
-            width:75%;
-            padding:10px;
-        }
-
-        button{
-            padding:10px 15px;
-            cursor:pointer;
-        }
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </style>
 </head>
 
